@@ -7,6 +7,7 @@ function SearchEngine() {
     const [word, setWord] = useState('');
     const [wordData, setWordData] = useState([]);
     const [synonyms, setSynonyms] = useState([]);
+    const [wordOnAPhrase, setWordOnAPhrase] = useState([]);
     const handleChange = (e) => {
         setSearch(e.target.value);
     }
@@ -15,7 +16,9 @@ function SearchEngine() {
         try {
             const responseWordData = await axios.get(`https://significado.herokuapp.com/${search}`);
             const responseSynonyms = await axios.get(`https://significado.herokuapp.com/synonyms/${search}`);
+            const responseWordOnAPhrase = await axios.get(`https://significado.herokuapp.com/sentences/${search}`);
             setSynonyms(responseSynonyms.data);
+            setWordOnAPhrase(responseWordOnAPhrase.data);
             setWordData(responseWordData.data);
             setWord(search);
         } catch (error) {
@@ -40,10 +43,10 @@ function SearchEngine() {
     return <div className="SearchEngine">
         <div className="input-group mb-3">
             <input value={search} type="text" className="form-control" placeholder="Palavra" aria-label="Palavra" onChange={handleChange} onKeyDown={handleKeyPress} />
-            <button className="btn btn-outline-secondary" id="btn-pesquisar" onClick={handleSearch}>Pesquisar</button>
-            <button className="btn btn-outline-secondary" id="btn-limpar" onClick={handleErase}>Limpar</button>
+            <button className="btn btn-sm btn-outline-secondary" id="btn-pesquisar" onClick={handleSearch}>Pesquisar</button>
+            <button className="btn btn-sm btn-outline-secondary" id="btn-limpar" onClick={handleErase}>Limpar</button>
         </div>
-        <Result word={word} synonyms={synonyms} wordData={wordData} />
+        <Result word={word} synonyms={synonyms} wordData={wordData} wordOnAPhrase={wordOnAPhrase} />
     </div>;
 }
 
