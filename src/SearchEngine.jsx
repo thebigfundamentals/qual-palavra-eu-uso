@@ -8,11 +8,16 @@ function SearchEngine() {
     const [wordData, setWordData] = useState([]);
     const [synonyms, setSynonyms] = useState([]);
     const [wordOnAPhrase, setWordOnAPhrase] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+
     const handleChange = (e) => {
         setSearch(e.target.value);
     }
     const handleSearch = async (e) => {
         e.preventDefault();
+        handleErase(e);
+        setIsLoading(true);
         try {
             const responseWordData = await axios.get(`https://significado.herokuapp.com/${search}`);
             const responseSynonyms = await axios.get(`https://significado.herokuapp.com/synonyms/${search}`);
@@ -28,6 +33,7 @@ function SearchEngine() {
             setWordOnAPhrase([]);
             setWord(search);
         }
+        setIsLoading(false);
     }
     const handleErase = (e) => {
         e.preventDefault();
@@ -48,6 +54,7 @@ function SearchEngine() {
             <button className="btn btn-sm btn-outline-secondary" id="btn-pesquisar" onClick={handleSearch}>Pesquisar</button>
             <button className="btn btn-sm btn-outline-secondary" id="btn-limpar" onClick={handleErase}>Limpar</button>
         </div>
+        {isLoading ? <div className="lds-ring"><div></div><div></div><div></div><div></div></div> : null}
         <Result word={word} synonyms={synonyms} wordData={wordData} wordOnAPhrase={wordOnAPhrase} />
     </div>;
 }
