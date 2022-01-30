@@ -25,6 +25,7 @@ function SearchEngine() {
             console.log(error);
             setSynonyms([]);
             setWordData([]);
+            setWordOnAPhrase([]);
             setWord(search);
         }
     }
