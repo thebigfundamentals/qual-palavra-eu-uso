@@ -34,6 +34,7 @@ function SearchEngine() {
         setWord('');
         setWordData([]);
         setSynonyms([]);
+        setWordOnAPhrase([]);
     }
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
